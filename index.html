@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Player</title>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #player-container {
+            position: relative;
+        }
+
+        #play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="player-container">
+        <div id="player"></div>
+        <img id="play-button" src="play-button.png" alt="Play Button" onclick="playVideo()">
+    </div>
+
+    <script>
+        // Replace 'YOUR_API_KEY' with your YouTube API key
+        const apiKey = 'YOUR_API_KEY';
+        const videoUrl = 'https://www.youtube.com/watch?v=RxKqlBwvrH8';
+        const videoId = extractVideoId(videoUrl);
+        let player;
+
+        function extractVideoId(url) {
+            const match = url.match(/[?&]v=([^&]+)/);
+            return match ? match[1] : null;
+        }
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: videoId,
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'showinfo': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Video is ready to play
+        }
+
+        function onPlayerStateChange(event) {
+            // You can implement additional logic here if needed
+        }
+
+        function playVideo() {
+            player.playVideo();
+            document.getElementById('play-button').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
